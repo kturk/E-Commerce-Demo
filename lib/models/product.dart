@@ -10,10 +10,11 @@ class Product{
 
   Product.fromObject(dynamic object)
   {
-    this.id = int.tryParse(object["id"]);
+    //this.id = int.tryParse(object["id"]);
+    this.id = object["id"];
     this.productName = object["productName"];
     this.productDescription = object["productDescription"];
-    this.productPrice = double.tryParse(object["productPrice"]);
+    this.productPrice = double.tryParse(object["productPrice"].toString());
   }
 
   Map<String, dynamic> toMap()

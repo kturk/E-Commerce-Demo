@@ -1,11 +1,11 @@
 import 'package:e_commerce_demo/data/dbHelper.dart';
 import 'package:e_commerce_demo/models/product.dart';
+import 'package:e_commerce_demo/screens/productDetail.dart';
 import 'package:flutter/material.dart';
 
 import 'addProduct.dart';
 
-class ProductList extends StatefulWidget
-{
+class ProductList extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _ProductListState();
@@ -55,34 +55,42 @@ class _ProductListState extends State<ProductList> {
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: Colors.black,
-          child: Text("Product"),
+          child: Text("P"),
         ),
         title: Text(this.products[index].productName),
-        subtitle: Text(this
-            .products[index]
-            .productPrice
-            .toString()), // description
+        subtitle:
+            Text(this.products[index].productPrice.toString()), // description
         onTap: () {
-          // TODO
+          goToProductDetail(this.products[index]);
         },
       ),
     );
   }
 
-  void goAddProductScreen() async
-  {
+  void goAddProductScreen() async {
     bool result = await Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => AddProduct()));
-    if (result != null && result == true)
-      getProducts();
+        context, MaterialPageRoute(builder: (context) => AddProduct()));
+    if (result != null && result == true) getProducts();
   }
 
   void getProducts() async {
     var futureProducts = dbHelper.getAllProducts();
     futureProducts.then((value) {
-      this.products = value;
-      productCount = value.length;
+      setState(() {
+        this.products = value;
+        productCount = value.length;
+      });
     });
+    if(products != null) {
+      for (int i = 0; i < products.length; i++) {
+        print(products[i].productName);
+      }
+    }
+  }
+
+  void goToProductDetail(Product product) async {
+    bool result = await Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ProductDetail(product)));
+    if (result != null && result == true) getProducts();
   }
 }
