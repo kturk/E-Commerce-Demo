@@ -1,5 +1,3 @@
-import 'package:flutter/animation.dart';
-
 class Product{
   int id;
   String productName;
